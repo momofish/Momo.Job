@@ -27,21 +27,21 @@
       </job-data-map>
     </job>
 
-    <!--<trigger>
+    <trigger>
       <cron>
         <name>ConMonTrigger</name>
         <job-name>ConMon</job-name>
         <misfire-instruction>SmartPolicy</misfire-instruction>
         <cron-expression>0 0 12,20 * * ?</cron-expression>
       </cron>
-    </trigger>-->
+    </trigger>
     <trigger>
       <simple>
         <name>ConMonTriggerDebug</name>
         <job-name>ConMon</job-name>
         <misfire-instruction>SmartPolicy</misfire-instruction>
-        <repeat-count>-1</repeat-count>
-        <repeat-interval>60000</repeat-interval>
+        <repeat-count>0</repeat-count>
+        <repeat-interval>3600000</repeat-interval>
       </simple>
     </trigger>
 
