@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Momo.Job.ConMon", "Momo.Job
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{94AAE676-E34F-4850-BAD2-BFB414BD5FC5}"
 	ProjectSection(SolutionItems) = preProject
+		Quartz.Server\App_Data\ConMon.db = Quartz.Server\App_Data\ConMon.db
 		Quartz.Server\casperjs\crawl.js = Quartz.Server\casperjs\crawl.js
 		Quartz.Server\Quartz.Server.exe.config = Quartz.Server\Quartz.Server.exe.config
 		Quartz.Server\quartz_jobs.xml = Quartz.Server\quartz_jobs.xml

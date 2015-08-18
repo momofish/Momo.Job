@@ -20,7 +20,7 @@ namespace Momo.Job.ConMon
         {
             var result = new Dictionary<string, List<Article>>();
 
-            var entries = _dao.List<Entry>(new { Enabled = true }, "select * from Entry where Enabled=@Enabled");
+            var entries = _dao.List<Entry>(new { Enabled = true });
             foreach (var entry in entries)
             {
                 var items = ExecuteEntry(entry);
