@@ -21,29 +21,28 @@ namespace Momo.Job.ConMon
             var result = new Dictionary<string, List<Article>>();
 
             var entries = _dao.List<Entry>(new { Enabled = true });
+            var mailTo = ConfigurationManager.AppSettings["conmon_mail_to"];
             foreach (var entry in entries)
             {
-                var items = ExecuteEntry(entry);
-                if (items.Count > 0)
-                    result.Add(entry.EntryId, items);
+                var articles = ExecuteEntry(entry);
+                if (articles.Count > 0)
+                {
+                    var subject = string.Format("抓取信息推送[{0}]", result.SelectMany(e => e.Value).Count());
+                    StringBuilder body = new StringBuilder(@"<table border=1 style='border-collapse: collapse; font-size: 12pt;'>");
+                    body.AppendFormat("<tr style='background-color:#eee;text-align:left;'><th style='text-align:left;line-height:1.5'>{0}[{1}]</th></tr>", entry.EntryId, articles.Count);
+                    foreach (var article in articles)
+                    {
+                        body.AppendFormat("<tr><td><a href='{1}'>{0}</a> [{2:yyyy-MM-dd}]<div>{3}</div></td></tr>", article.Title, article.Url, article.PubTime, article.Content);
+                    }
+                    body.Append("</table>");
+                    MessageHelper.SendMail(mailTo, subject, body.ToString());
+
+                    result.Add(entry.EntryId, articles);
+                }
             }
 
             if (result.Count == 0)
                 return null;
-
-            var mailTo = ConfigurationManager.AppSettings["conmon_mail_to"];
-            var subject = string.Format("抓取信息推送[{0}]", result.SelectMany(e => e.Value).Count());
-            StringBuilder body = new StringBuilder(@"<table border=1 style='border-collapse: collapse; font-size: 12pt;'>");
-            foreach (var entry in result)
-            {
-                body.AppendFormat("<tr style='background-color:#eee;text-align:left;'><th style='text-align:left;line-height:1.5'>{0}[{1}]</th></tr>", entry.Key, entry.Value.Count);
-                foreach (var article in entry.Value)
-                {
-                    body.AppendFormat("<tr><td><a href='{1}'>{0}</a> [{2:yyyy-MM-dd}]<div>{3}</div></td></tr>", article.Title, article.Url, article.PubTime, article.Content);
-                }
-            }
-            body.Append("</table>");
-            MessageHelper.SendMail(mailTo, subject, body.ToString());
 
             return result;
         }
@@ -83,7 +82,7 @@ namespace Momo.Job.ConMon
             }
             catch (Exception e)
             {
-                Console.WriteLine("Fatal: " + e.Message);
+                Console.WriteLine(e.Message);
             }
 
             return articles;
