@@ -217,7 +217,7 @@ function myDebug(tag) {
 
 // casper option
 casper.options.verbose = !!debugFlag;
-casper.options.pageSettings.userAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25';
+casper.options.pageSettings.userAgent = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.125 Safari/537.36';
 casper.options.pageSettings.loadImages = false;
 phantom.outputEncoding = "gbk";
 casper.options.waitTimeout = 90000;
@@ -228,16 +228,16 @@ casper.options.clientScripts = [
 // var
 var config = JSON.parse(casper.cli.raw.get('config') || null) ||
     {
-        startPage: "http://www.gzsums.net/fuyi.aspx?tid=808",
-        itemSelector: ".dotbox ul > li",
-        titlePattern: "招聘",
-        contentPattern: "呼吸内科",
+        startPage: "http://www.zssy.com.cn/home/ContentList/zssy?colType=0&colID=1086",
+        itemSelector: "div.new3_list > ul > li",
+        titlePattern: "招聘.*启事",
+        contentPattern: "心血管|重症",
         properties: {
             url: { source: "item", selector: "a", parser: "[0].href" },
             title: { source: "item", selector: "a" },
-            pubTime: { source: "item", parser: "function(){ return this.childNodes[2].data; }" },
-            content: { source: "detail", selector: "#right_box > div > div:nth-child(4) > div:nth-child(3)", parser: "function(){return $(this).html();}" },
-            contentText: { source: "detail", selector: "#right_box > div > div:nth-child(4) > div:nth-child(3)" }
+            pubTime: { source: "item", selector: "span.right" },
+            content: { source: "detail", selector: "div.divContent", parser: "function(){return $(this).html();}" },
+            contentText: { source: "detail", selector: "div.divContent" }
         },
         latestUrl: null
     }
