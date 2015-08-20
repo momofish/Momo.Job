@@ -27,7 +27,7 @@ namespace Momo.Job.ConMon
                 var articles = ExecuteEntry(entry);
                 if (articles.Count > 0)
                 {
-                    var subject = string.Format("抓取信息推送[{0}]", result.SelectMany(e => e.Value).Count());
+                    var subject = string.Format("抓取信息推送[{0}]", articles.Count());
                     StringBuilder body = new StringBuilder(@"<table border=1 style='border-collapse: collapse; font-size: 12pt;'>");
                     body.AppendFormat("<tr style='background-color:#eee;text-align:left;'><th style='text-align:left;line-height:1.5'>{0}[{1}]</th></tr>", entry.EntryId, articles.Count);
                     foreach (var article in articles)
